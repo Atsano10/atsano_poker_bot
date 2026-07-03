@@ -1,0 +1,4 @@
+rlcard
+treys
+numpy
+streamlit
