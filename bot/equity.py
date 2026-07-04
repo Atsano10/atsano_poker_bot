@@ -1,15 +1,42 @@
-# Equity = how often our hand wins if we run the rest of the cards out.
-# We figure this out the lazy-but-smart way: Monte Carlo simulation.
-# Deal random cards to opponents and random community cards thousands of times,
-# count how often we win, and that fraction is our equity.
-#
-# The main function here should look something like:
-#   estimate_equity(hole_cards, community_cards, num_opponents, simulations=5000)
-#   -> returns a float between 0 and 1 (e.g. 0.85 for pocket aces preflop)
-#
-# We use treys to evaluate who wins each simulated runout — it's fast
-# and handles all the hand-ranking logic so we don't have to.
-# numpy helps shuffle and deal cards quickly across thousands of sims.
-#
-# The sanity check: pocket aces vs one random hand should come out around 85%.
-# If it doesn't, something's wrong with the simulation.
+from treys import Card, Deck, Evaluator
+import numpy as np
+
+
+def estimate_equity(pocket_cards, community_cards, num_opponents, simulations):
+    wins = 0 # count for our wins
+    evaluator = Evaluator() #creates the evaluator
+
+    # runs evaluator a simulations amount of times to get a better approximate helping our decision per board change
+    for j in range(simulations):
+        won = True
+        board = community_cards.copy()
+
+        deck = Deck() #creates the deck    
+        deck.cards = [x for x in deck.cards if x not in pocket_cards] #filters out pocket_cards from deck
+        deck.cards = [x for x in deck.cards if x not in board] #filters out community_cards from deck
+
+    
+        # draws cards for opponents
+        opponent_cards = []
+        for i in range (num_opponents):
+            opponent_cards.append(deck.draw(2))
+
+        # draws cards if the stage requires so
+        while len(board) < 5:
+            board += deck.draw(1) #draw automatically removes
+
+        # evaluates our hand and remembers score
+        my_score = evaluator.evaluate(board,pocket_cards)
+
+        # evaluates opponent hands and checks vs my_score
+        for hand in opponent_cards:
+            opponent_score = evaluator.evaluate(board,hand)
+            if opponent_score < my_score:
+                won = False
+                break
+        
+        # gives us a point if we actually beat everyone
+        if won == True:
+            wins += 1
+        
+    return wins/simulations
