@@ -1,13 +1,32 @@
--- These are the five tables that form the bot's memory.
--- Run this once to set up the database (database.py handles that on connect).
+CREATE TABLE IF NOT EXISTS sessions(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    start_time INTEGER
+);
 
--- tracks each play session (one session = one run of main.py)
+CREATE TABLE IF NOT EXISTS hands(
+    hand_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    session_id INTEGER,
+    pot_size INTEGER,
+    num_players INTEGER,
+    outcome INTEGER,
+    winner_id INTEGER,
+    position INTEGER
+);
 
--- tracks individual hands within a session
+CREATE TABLE IF NOT EXISTS decision(
+    decision_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    actions TEXT,
+    player_id INTEGER,
+    hand_id INTEGER,
+    street TEXT,
+    pot_size INTEGER
+);
 
--- every single action any opponent takes goes here — this is the raw history
--- street is 'preflop', 'flop', 'turn', or 'river'
--- action is 'fold', 'call', or 'raise'
-
--- one row per opponent, updated after each hand by the profiler
--- vpip, aggression, and archetype are what decision.py reads when it acts
+CREATE TABLE IF NOT EXISTS stats(
+    stats_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    player_id INTEGER,
+    aggression REAL,
+    playstyle TEXT,
+    vpip REAL,
+    hands_played INTEGER
+);
