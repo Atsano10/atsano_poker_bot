@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS hands(
     position INTEGER
 );
 
-CREATE TABLE IF NOT EXISTS decision(
+CREATE TABLE IF NOT EXISTS decisions(
     decision_id INTEGER PRIMARY KEY AUTOINCREMENT,
     actions TEXT,
     player_id INTEGER,
