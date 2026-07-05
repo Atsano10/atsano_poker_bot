@@ -1,5 +1,5 @@
-# This file is the "table" — it wraps rlcard so we don't have to
 # deal with the annoying rules stuff ourselves (side pots, all-ins, etc.).
+# This file is the "table" — it wraps rlcard so we don't have to
 # RLCard already handles all of that; our job here is just to plug
 # our bot and our observer into its loop.
 #
@@ -11,3 +11,11 @@
 #
 # Think of this file as the glue between rlcard (the borrowed table)
 # and our own code (the brain). It shouldn't make any decisions itself.
+
+import rlcard 
+
+def game(conn, num_opponents):
+    env = rlcard.make('no-limit-holdem')
+    env.reset()
+
+    return
