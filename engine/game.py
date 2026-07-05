@@ -1,21 +1,18 @@
-# deal with the annoying rules stuff ourselves (side pots, all-ins, etc.).
-# This file is the "table" — it wraps rlcard so we don't have to
-# RLCard already handles all of that; our job here is just to plug
-# our bot and our observer into its loop.
-#
-# What needs to happen here:
-#   - set up the rlcard Texas Hold'em environment
-#   - on each step, pass the game state to bot/decision.py to get an action
-#   - also pass every opponent action to bot/observer.py so it gets logged
-#   - return the result of each hand (who won, pot size) back to main.py
-#
-# Think of this file as the glue between rlcard (the borrowed table)
-# and our own code (the brain). It shouldn't make any decisions itself.
-
 import rlcard 
 
 def game(conn, num_opponents):
-    env = rlcard.make('no-limit-holdem')
-    env.reset()
+    env = rlcard.make('no-limit-holdem') #creates a no-limit Texas Hold'em table
+    env.reset() #starts a new hand, deals card
 
-    return
+    while(env.is_over() != True): #keeps playing until the hand is finished
+        env.step(1) #makes a decision
+
+    payoffs = env.get_payoffs() #saves the payouts in a list
+
+    pot_size = sum([abs(x) for x in payoffs]) #for every value in list add the abs value of it
+
+    return payoffs.index(max(payoffs)), pot_size #return the winner and the potsize
+
+#FUTURE STEPS
+# make an actual decision
+# pass states and actions for stats
