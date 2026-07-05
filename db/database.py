@@ -35,9 +35,9 @@ def update_hand(conn, hand_id, outcome, winner_id, pot_size):
     return
 
 # logs one opponent decision to the decision table
-def insert_decision(conn, actions, player_id, hand_id, street, pot_size):
+def insert_decision(conn, actions, player_id, hand_id, street, pot_size, amount):
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO decisions (actions, player_id, hand_id, street, pot_size) VALUES (?,?,?,?,?)", (actions, player_id, hand_id, street, pot_size))
+    cursor.execute("INSERT INTO decisions (actions, player_id, hand_id, street, pot_size, amount) VALUES (?,?,?,?,?,?)", (actions, player_id, hand_id, street, pot_size, amount))
     conn.commit()
 
     decision_id = cursor.lastrowid
@@ -67,3 +67,6 @@ def all_player_stats(conn):
     cursor.execute("SELECT * FROM stats")
 
     return cursor.fetchall() #rettrieves all rows and returns them
+
+def get_player_actions(conn,player_id):
+    return

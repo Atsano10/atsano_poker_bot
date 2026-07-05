@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS decisions(
     player_id INTEGER,
     hand_id INTEGER,
     street TEXT,
-    pot_size INTEGER
+    pot_size INTEGER,
+    amount INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS stats(
