@@ -9,4 +9,18 @@
 from db.database import get_stats, update_stats, get_player_actions
 
 def update_profile(conn, player):
+    player_actions = get_player_actions(conn, player)
+
+    preflop_actions = [row for row in player_actions if row[4] == 'preflop'] # make a list of only the preflop 
+    preflop_call = [ x for x in preflop_actions if x[1] == 'call'] # count how many calls in preflop
+    preflop_raise = [ x for x in preflop_actions if x[1] == 'raise'] # count how many raises in preflop
+    total_hands = len(set(row[3] for row in player_actions)) # count the total amount of unique hand_ids
+
+    # calculate vpip
+    vpip = ((len(preflop_call)+len(preflop_raise))/(total_hands))
+
+    # calculate aggresion
+    
+
+
     return

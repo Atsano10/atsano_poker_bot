@@ -45,9 +45,9 @@ def insert_decision(conn, actions, player_id, hand_id, street, pot_size, amount)
 
 
 # upserts their profile
-def update_stats(conn, player_id, aggression, playstyle, vpip, hands_played):
+def update_stats(conn, player_id, aggression, playstyle, vpip, hands_played, PFR, three_bet):
     cursor = conn.cursor()
-    cursor.execute("INSERT OR REPLACE INTO stats (player_id, aggression, playstyle, vpip, hands_played) VALUES (?,?,?,?,?)", (player_id, aggression, playstyle, vpip, hands_played))
+    cursor.execute("INSERT OR REPLACE INTO stats (player_id, aggression, playstyle, vpip, hands_played, PFR, three_bet) VALUES (?,?,?,?,?,?,?)", (player_id, aggression, playstyle, vpip, hands_played, PFR, three_bet))
     conn.commit()
 
     stats_id = cursor.lastrowid
@@ -61,12 +61,16 @@ def get_stats(conn, player_id):
     stats_id = cursor.fetchone() #retrieves only one row from the query
     return stats_id
 
-#returns all player profiles (used by streamlit)
+# returns all player profiles (used by streamlit)
 def all_player_stats(conn):
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM stats")
 
     return cursor.fetchall() #rettrieves all rows and returns them
 
+# returns the players actions
 def get_player_actions(conn,player_id):
-    return
+    cursor = conn.cursor()
+    cursor.execute("SELECT * from decisions WHERE player_id = ?", (player_id,))
+
+    return cursor.fetchall()

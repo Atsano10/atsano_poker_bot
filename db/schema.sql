@@ -29,5 +29,7 @@ CREATE TABLE IF NOT EXISTS stats(
     aggression REAL,
     playstyle TEXT,
     vpip REAL,
-    hands_played INTEGER
+    hands_played INTEGER,
+    PFR REAL,
+    three_bet REAL
 );
