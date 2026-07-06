@@ -27,7 +27,7 @@ def decide(pocket_cards,community_cards, pot, to_call, player_id, num_opponents,
                 threshold = pot_odds * 0.7 #if it is small bet lowers the threshold 
                 if(equity < threshold): # if the W% is still not good then fold
                     return ('Fold',0, f" Since equity { equity: .0%} vs threshold {threshold: .0%}, then we fold because they dont Bluff")
-                
+
                 else: # if it is good enough then raise to steal their blind
                     if(community_cards == []):#check if its in preflop and decide
                         return ('Raise',0,f"Since equity { equity: .0%} vs threshold {threshold: .0%}, then we steal their call because they over-fold")
@@ -43,13 +43,31 @@ def decide(pocket_cards,community_cards, pot, to_call, player_id, num_opponents,
                     return('Fold',0,f"Since equity {equity: .0%} vs threshold {threshold: .0%}, we play fold because they probably have a better hand than us, and dont bluff")
                 
         elif stats[3] == "TAG": #checks if player is a Tight Aggresive
-            return
+            if(to_call < pot * (0.3)):
+                threshold = pot_odds * 0.85
+                if(equity < threshold):
+                    return ('Fold',0, f" Since equity { equity: .0%} vs threshold {threshold: .0%}, might be bluffing but better to be safe and fold.")
+                
+                else:
+                    return ('Call',0, f" Since equity { equity: .0%} vs threshold {threshold: .0%}, we call because it might be a bluff and we also have a good hand.")
+            
+            elif(to_call > pot * 0.6):
+                threshold = pot_odds * 1.5
+                if(equity > threshold):
+                    return ('Raise',0, f"Since equity {equity: .0%} vs threshold {threshold: .0%}, we have a really good hand so we raise them because they might be bluffing.")
+                
+                else:
+                    return ('Fold',0, f"Since equity {equity: .0%} vs threshold {threshold: .0%}, probably not a bluff so might as well fold.")
+                
         elif stats[3] == "LAG": #checks if player is a Loose Aggresive
             return
+
         elif stats[3] == "Calling Station": #checks if player is a Calling Station
             return
+        
         elif stats[3] == "Maniac": #checks if player is an extreme LAG
             return
+        
         elif stats[3] == "Fish": #checks if player is a Fish
             return
         
