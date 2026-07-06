@@ -18,3 +18,7 @@
 #
 # The reason_string matters — printing "equity 62% > 25% needed, raising"
 # is what makes the bot explainable, which is the whole resume story.
+
+
+def decide():
+    return
