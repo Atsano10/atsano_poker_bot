@@ -1,4 +1,4 @@
-from db.database import get_stats, update_stats, get_player_actions
+from db.database import update_stats, get_player_actions
 
 def update_profile(conn, player):
     player_actions = get_player_actions(conn, player) #make a list of every action
@@ -8,16 +8,19 @@ def update_profile(conn, player):
     preflop_raises = len([ x for x in preflop_actions if x[1] == 'raise']) # count how many raises in preflop
     total_hands = len(set(row[3] for row in player_actions)) # count the total amount of unique hand_ids
     # calculate vpip
-    vpip = (((preflop_calls)+(preflop_raises))/(total_hands))
+    if total_hands == 0: vpip = 0
+    else:vpip = (((preflop_calls)+(preflop_raises))/(total_hands))
 
 
     total_calls = len([x for x in player_actions if x[1] == 'call']) # counts amount of calls
     total_raises = len([x for x in player_actions if x[1] == 'raise']) #counts amount of raises
     # calculate aggresion
-    aggression = (total_raises)/(total_raises + total_calls)
+    if total_calls + total_raises == 0 : aggression = 0
+    else:aggression = (total_raises)/(total_raises + total_calls)
 
     # calculate PFR
-    PFR = preflop_raises/total_hands
+    if total_hands == 0: PFR = 0
+    else: PFR = preflop_raises/total_hands
 
     # calculate 3-Bet (add later after basic game is completed, requires tracking decisions)
 
@@ -38,4 +41,4 @@ def update_profile(conn, player):
         archetype = "Unknown"
         
     update_stats(conn, player, aggression, archetype, vpip, total_hands, PFR, 0)
-    return
+    return  

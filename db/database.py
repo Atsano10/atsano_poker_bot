@@ -3,7 +3,7 @@ from datetime import datetime
 
 def connect():
     conn = sqlite3.connect('db/poker.db') #opens the database file or creates it, returns a connection object
-    with open ("schema.sql", "r") as database: #opens schema.sql in read mode
+    with open ("db/schema.sql", "r") as database: #opens schema.sql in read mode
         content = database.read() #saves the sql file into a string
         conn.executescript(content) #runs the sql
     return conn 

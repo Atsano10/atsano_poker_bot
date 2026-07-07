@@ -13,13 +13,13 @@ def game(conn, num_opponents, hand_id): # function that takes in connection, num
         community_cards = raw['public_cards'] #extract community_cards from raw
         pot = raw['pot'] #extract pot from raw
         to_call = max(raw['all_chips']) - raw['my_chips'] #calculate amount needed to call
-        street = raw['stage'] #extract street from raw
+        street = str(raw['stage']) #extract street from raw
 
         actions_str,amount,reason = decide(pocket_cards, community_cards, pot, to_call, player_id, num_opponents, conn) # split decision for convenience
-        actions = {"Call": 1, "Raise": 2, "Fold": 0} # dictionary to convert str -> int for usage
+        actions = {"Fold": 0, "Check": 1, "Call": 1, "Raise": 2} # dictionary to convert str -> int for usage
 
         state,player_id = env.step(actions[actions_str]) #pass the integer value to acknowledge action
-        log_action(conn, hand_id, player_id, street, actions_str, amount) #log the actions
+        log_action(conn, hand_id, player_id, street, actions_str,pot, amount) #log the actions
 
     payoffs = env.get_payoffs() # stores what each players profit was in the hand
     pot_size = sum([abs(x) for x in payoffs]) #sum the abs of each players profit

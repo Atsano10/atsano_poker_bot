@@ -3,6 +3,9 @@ import numpy as np
 
 
 def estimate_equity(pocket_cards, community_cards, num_opponents, simulations):
+    pocket_cards = [ Card.new(card[1] + card[0].lower()) for card in pocket_cards] #convert for treys appropriate cards
+    community_cards = [ Card.new(card[1] + card[0].lower()) for card in community_cards] #convert for treys appropriate cards
+
     wins = 0 # count for our wins
     evaluator = Evaluator() #creates the evaluator
 

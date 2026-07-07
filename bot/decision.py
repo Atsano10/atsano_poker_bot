@@ -1,7 +1,7 @@
 # Future
 # account for all players not only one
 
-from equity import estimate_equity
+from bot.equity import estimate_equity
 from db.database import get_stats
 
 def decide(pocket_cards, community_cards, pot, to_call, player_id, num_opponents, conn):
@@ -19,7 +19,7 @@ def decide(pocket_cards, community_cards, pot, to_call, player_id, num_opponents
     pot_odds = to_call / (pot + to_call)
 
     #If we havent gotten enough data yet
-    if stats[5] < 10:
+    if stats is None or stats[5] < 10:
         if pot_odds < equity:
             return ('Call', 0, "just call based on odds")
         else:
