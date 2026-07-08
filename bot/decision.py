@@ -1,6 +1,3 @@
-# Future
-# account for all players not only one
-
 from bot.equity import estimate_equity
 from db.database import get_stats
 

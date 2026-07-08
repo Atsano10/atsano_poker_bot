@@ -1,10 +1,3 @@
-# 1. Connect to DB, create session
-# 2. Loop over hands:
-#  - Create hand
-#  - Run game (bot vs opponent, heads-up)
-#  - Update hand (winner, pot size)
-# 3. End
-
 from db.database import connect, create_hand, create_session, update_hand
 from engine.game import game, BOT #import BOT constant to check winner
 
