@@ -19,10 +19,10 @@ def game(conn, hand_id): #takes in connection and hand_id, heads-up only now
         to_call = max(raw['all_chips']) - raw['my_chips'] #calculate amount needed to call
         street = str(raw['stage']) #extract street from raw
 
-        if player_id == BOT: #our turn, make a smart decision
+        if player_id == BOT: #our turn make a smart decision
             action_str,amount,reason = decide(pocket_cards, community_cards, pot, to_call, player_id, conn)
             action_int = {"Fold": 0, "Check": 1, "Call": 1, "Raise": 2}[action_str]
-        else: #opponents turn, pick a random legal action
+        else: #opponents turn pick a random legal action
             legal_actions = list(state['legal_actions'].keys())
             action_int = int(np.random.choice(legal_actions))
             action_str = {0: "Fold", 1: "Call", 2: "Raise"}.get(action_int, "Call")
@@ -32,7 +32,7 @@ def game(conn, hand_id): #takes in connection and hand_id, heads-up only now
         state,player_id = env.step(action_int) #step the environment forward
 
     payoffs = env.get_payoffs() #stores what each players profit was in the hand
-    pot_size = sum([abs(x) for x in payoffs]) #sum the abs of each players profit
+    pot_size = int(sum([abs(x) for x in payoffs])) #sum the abs of each players profit, convert to int for db
 
     update_profile(conn, OPPONENT) #only profile the opponent not ourselves
 
