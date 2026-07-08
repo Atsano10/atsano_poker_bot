@@ -1,4 +1,5 @@
 import rlcard 
+import numpy as np
 from bot.decision import decide
 from bot.profiler import update_profile
 from bot.observer import log_action
@@ -26,4 +27,4 @@ def game(conn, num_opponents, hand_id): # function that takes in connection, num
 
     update_profile(conn, player_id) #update the profile to create archetype
 
-    return int(payoffs.index(max(payoffs))), pot_size 
+    return (int(np.argmax(payoffs))), pot_size 
