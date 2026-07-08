@@ -26,4 +26,4 @@ def game(conn, num_opponents, hand_id): # function that takes in connection, num
 
     update_profile(conn, player_id) #update the profile to create archetype
 
-    return payoffs.index(max(payoffs)), pot_size 
+    return int(payoffs.index(max(payoffs))), pot_size 
