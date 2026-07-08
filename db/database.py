@@ -17,9 +17,9 @@ def create_session(conn): #takes in the connection to define db
     return session_id 
 
 # inserts a new hand row, returns its id
-def create_hand(conn, session_id, num_players, position):
+def create_hand(conn, session_id):
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO hands(session_id, num_players, position) VALUES (?, ?, ?)", (session_id, num_players, position)) #inserts values
+    cursor.execute("INSERT INTO hands(session_id, num_players, position) VALUES (?, ?, ?)", (session_id, 2, 0)) #always heads-up, bot is position 0
     conn.commit()
 
     hand_id = cursor.lastrowid

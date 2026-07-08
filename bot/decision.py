@@ -4,10 +4,10 @@
 from bot.equity import estimate_equity
 from db.database import get_stats
 
-def decide(pocket_cards, community_cards, pot, to_call, player_id, num_opponents, conn):
+def decide(pocket_cards, community_cards, pot, to_call, player_id, conn):
     simulations = 500 #hardcoded sims
 
-    equity = estimate_equity(pocket_cards, community_cards, num_opponents, simulations)
+    equity = estimate_equity(pocket_cards, community_cards, 1, simulations) #always heads-up so 1 opponent
     stats = get_stats(conn, player_id)
 
     # If no one has bet first.
